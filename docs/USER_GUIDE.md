@@ -223,10 +223,27 @@ On your first visit, Metabase will walk you through an initial setup wizard:
 | **Password** | *(leave empty)* |
 
 5. Click **Save** to test and save the connection.
+6. **Usage data preferences** — Metabase asks whether you'd like to share anonymous usage data. Check or uncheck the **Allow Metabase to anonymously collect usage events** checkbox based on your preference, then click **Finish**.
 
 > **Note:** Metabase connects to Trino using the Docker internal hostname `trino`, not `localhost`, because Metabase runs inside the same Docker network.
 
-> **Tip:** You can add multiple database connections to Metabase — one per Trino catalog (e.g., `postgresql`, `mysql`, `hive`). This lets you browse schemas from different catalogs.
+> **Important:** The catalog you specify (e.g., `postgresql`) is only the **default** catalog. You can still query **all** catalogs using fully-qualified table names (e.g., `mysql.warehouse.customers` or `hive.datalake.shipping_events`) from this single connection. Cross-catalog federated JOINs work without any additional configuration.
+
+### Adding Additional Catalog Connections (Optional)
+
+For convenience when using the **visual query builder** (which only browses the default catalog's tables), you can add separate Metabase connections for each catalog:
+
+1. Go to **Admin** (gear icon, top-right) → **Databases** → **Add database**.
+2. Select **Starburst** and fill in the same details as above, but change:
+
+| Connection | Catalog | Display Name |
+|------------|---------|--------------|
+| MySQL | `mysql` | `Trino — MySQL Warehouse` |
+| Hive/MinIO | `hive` | `Trino — Hive Data Lake` |
+
+3. Click **Save** for each.
+
+This lets you browse MySQL and Hive tables in the visual query builder. For custom SQL queries, a single connection is sufficient since you can use fully-qualified names.
 
 ### Querying with the Visual Query Builder
 
