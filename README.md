@@ -303,6 +303,7 @@ User → OAuth2 Proxy (:4180) → Keycloak (:8180) → authenticate
 2. Click **Sign in with Keycloak OIDC**.
 3. Enter credentials (e.g., `datawave-admin` / `admin123`).
 4. After successful login, you are proxied to the Trino Web UI.
+5. Trino will prompt for a **username** — enter any name (e.g., `datawave-admin`). This is not a security gate; Trino uses it only to label your queries. The real authentication already happened via Keycloak.
 
 ### Keycloak Admin Console
 

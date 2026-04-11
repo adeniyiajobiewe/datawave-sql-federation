@@ -715,7 +715,8 @@ Browser → OAuth2 Proxy (:4180) → Keycloak (:8180) → user authenticates
 2. Click **Sign in with Keycloak OIDC**.
 3. Enter credentials (e.g., `datawave-admin` / `admin123`).
 4. After successful authentication, you are redirected to the Trino Web UI.
-5. A session cookie maintains your login state across page refreshes.
+5. Trino will prompt for a **username** — enter any name (e.g., `datawave-admin`). This is not a second login; Trino uses it solely for query attribution and tracking. The real authentication was handled by Keycloak in the previous step.
+6. A session cookie maintains your login state across page refreshes.
 
 ### Authentication Flow (OIDC Authorization Code + PKCE)
 
