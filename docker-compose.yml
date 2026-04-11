@@ -20,7 +20,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - datawave-net
+      - datasources
 
   # =========================================
   # Data Source 2: MySQL (Warehouse)
@@ -44,7 +44,7 @@ services:
       timeout: 5s
       retries: 10
     networks:
-      - datawave-net
+      - datasources
 
   # =========================================
   # Object Storage: MinIO (S3-compatible)
@@ -67,7 +67,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - datawave-net
+      - datasources
 
   # Initialize MinIO buckets
   minio-init:
@@ -84,7 +84,7 @@ services:
       exit 0;
       "
     networks:
-      - datawave-net
+      - datasources
 
   # =========================================
   # Hive Metastore Backend Database
@@ -105,7 +105,7 @@ services:
       timeout: 5s
       retries: 10
     networks:
-      - datawave-net
+      - datasources
 
   # =========================================
   # Hive Metastore (Catalog for S3/MinIO)
@@ -125,7 +125,7 @@ services:
     environment:
       METASTORE_DB_HOSTNAME: metastore-db
     networks:
-      - datawave-net
+      - datasources
 
   # =========================================
   # SQL Federation Engine: Trino
@@ -151,7 +151,8 @@ services:
       retries: 30
       start_period: 30s
     networks:
-      - datawave-net
+      - frontend
+      - datasources
 
   # =========================================
   # Trino Init: Seeds Hive/MinIO data lake
@@ -174,7 +175,7 @@ services:
       echo 'Data lake init complete.';
       "
     networks:
-      - datawave-net
+      - frontend
 
   # =========================================
   # BI Tool / Query UI: Metabase
@@ -191,7 +192,7 @@ services:
     volumes:
       - metabase-data:/metabase-data
     networks:
-      - datawave-net
+      - frontend
 
 volumes:
   postgres-data:
@@ -201,5 +202,9 @@ volumes:
   metabase-data:
 
 networks:
-  datawave-net:
+  # Metabase / trino-init → Trino (user-facing layer)
+  frontend:
+    driver: bridge
+  # Trino → PostgreSQL, MySQL, Hive Metastore, MinIO (all data backends)
+  datasources:
     driver: bridge
