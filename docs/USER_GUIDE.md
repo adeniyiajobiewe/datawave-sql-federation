@@ -279,21 +279,28 @@ This lets you browse MySQL and Hive tables in the visual query builder. For cust
 
 ### Writing Custom SQL in Metabase
 
-1. Click **New** → **SQL Query**.
+1. Navigate to the main app. Click **New** → **SQL Query**.
 2. Select any one of your Trino database connections from the dropdown (top-left). The dropdown only allows selecting one connection at a time, but this does **not** limit which catalogs you can query — all connections point to the same Trino federation engine, so fully-qualified table names (e.g., `mysql.warehouse.customers`) work regardless of which connection you selected.
 3. Write any SQL query, including cross-source federated queries:
 
 ```sql
+# All 3 catalog connections (mysql, postgresql, and hive) must be added for the query below to work
 SELECT
-    s.tracking_number,
-    c.name AS customer,
-    c.tier,
-    s.status,
-    s.weight_kg
+  s.tracking_number,
+  s.origin,
+  s.destination,
+  s.status,
+  c.name AS customer_name,
+  c.email,
+  c.country,
+  e.event_type,
+  e.location AS last_event_location,
+  e.event_timestamp
 FROM postgresql.logistics.shipments s
 JOIN mysql.warehouse.customers c ON s.customer_id = c.id
-WHERE c.tier = 'platinum'
-ORDER BY s.weight_kg DESC
+JOIN hive.datalake.shipping_events e ON s.tracking_number = e.tracking_number
+ORDER BY e.event_timestamp DESC
+LIMIT 10
 ```
 
 4. Click the **Run** button (or press `Ctrl+Enter`).
