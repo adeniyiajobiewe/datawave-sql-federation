@@ -234,8 +234,8 @@ On your first visit, Metabase will walk you through an initial setup wizard:
 
 For convenience when using the **visual query builder** (which only browses the default catalog's tables), you can add separate Metabase connections for each catalog:
 
-1. Go to **Admin** (gear icon, top-right) → **Databases** → **Add database**.
-2. Select **Starburst** and configure each connection:
+1. Go to the grid icon on the top right and click on  **Admin**. Then click **Databases** on the navigation bar → **Add database**.
+2. From the **Database type** drop down, select **Starburst** and configure each connection:
 
 **MySQL Warehouse connection:**
 
