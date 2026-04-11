@@ -267,7 +267,7 @@ This lets you browse MySQL and Hive tables in the visual query builder. For cust
 
 ### Querying with the Visual Query Builder
 
-1. Click **New** → **Question** in the top navigation.
+1. After adding the catalog connections, navigate back to the main app by clicking on the grid icon to the top right, click on **New** and select **Question**.
 2. Select your Trino database connection.
 3. Choose a table (e.g., `shipments`).
 4. Use the drag-and-drop interface to:
